@@ -1,0 +1,11 @@
+{
+  "name": "exercise_1-decorators",
+  "version": "1.0.0",
+  "description": "Decorators",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "author": "MichRad",
+  "license": "MIT"
+}
