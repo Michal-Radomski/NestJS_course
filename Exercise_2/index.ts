@@ -54,3 +54,37 @@ basket2.add("cucumber", 5, 4);
 console.log("basket2:", basket2);
 console.log("basket2.names2():", basket2.names2());
 console.log("basket2.sum2():", basket2.sum2());
+
+//* Functional Programming
+
+function addProduct(currentBasket: Item[], name: string, price: number, count: number = 1) {
+  return [
+    ...currentBasket,
+    {
+      name: name,
+      price: price,
+      count: count,
+    },
+  ];
+}
+
+const baseBasket = [];
+const basketWithBread = addProduct(baseBasket, "bread", 2.5, 1);
+const basketWithBreadAndCucumber = addProduct(basketWithBread, "cucumber", 5, 4);
+
+console.log("baseBasket:", baseBasket);
+console.log("basketWithBread;", basketWithBread);
+console.log("basketWithBreadAndCucumber;", basketWithBreadAndCucumber);
+
+function itemNames(basket) {
+  return basket.map((item) => item.name);
+}
+function pricesSum(basket) {
+  return basket.reduce((prev, current) => prev + current.price * current.count, 0);
+}
+
+console.log("itemNames(basketWithBreadAndCucumber):", itemNames(basketWithBreadAndCucumber));
+console.log("pricesSum(basketWithBreadAndCucumber):", pricesSum(basketWithBreadAndCucumber));
+
+//* Reactive Programming
+//* Similar to promises
