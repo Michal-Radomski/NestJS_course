@@ -68,19 +68,19 @@ function addProduct(currentBasket: Item[], name: string, price: number, count: n
   ];
 }
 
-const baseBasket = [];
-const basketWithBread = addProduct(baseBasket, "bread", 2.5, 1);
-const basketWithBreadAndCucumber = addProduct(basketWithBread, "cucumber", 5, 4);
+const baseBasket: Item[] = [];
+const basketWithBread: Item[] = addProduct(baseBasket, "bread", 2.5, 1);
+const basketWithBreadAndCucumber: Item[] = addProduct(basketWithBread, "cucumber", 5, 4);
 
 console.log("baseBasket:", baseBasket);
 console.log("basketWithBread;", basketWithBread);
 console.log("basketWithBreadAndCucumber;", basketWithBreadAndCucumber);
 
-function itemNames(basket) {
-  return basket.map((item) => item.name);
+function itemNames(basket: Item[]) {
+  return basket.map((item: Item) => item.name);
 }
-function pricesSum(basket) {
-  return basket.reduce((prev, current) => prev + current.price * current.count, 0);
+function pricesSum(basket: Item[]) {
+  return basket.reduce((prev: number, current: Item) => prev + current.price * current.count, 0);
 }
 
 console.log("itemNames(basketWithBreadAndCucumber):", itemNames(basketWithBreadAndCucumber));
