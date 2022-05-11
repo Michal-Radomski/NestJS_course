@@ -30,3 +30,10 @@
   console.log(ApiInfoResult.Error);
   console.log(ApiInfoResult[15]);
 }
+
+export function sum2(a: number, b: number): number {
+  return a + b;
+}
+export default function sum3(a: number, b: number): number {
+  return a + b;
+}
