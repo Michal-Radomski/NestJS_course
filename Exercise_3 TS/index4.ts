@@ -19,3 +19,14 @@
     payload: true,
   };
 }
+
+{
+  //* Type Enum
+  enum ApiInfoResult {
+    Ok = 10, //* Domyślne wartości: 0,1,2...
+    Error = 15,
+    Warning = "Warning",
+  }
+  console.log(ApiInfoResult.Error);
+  console.log(ApiInfoResult[15]);
+}
