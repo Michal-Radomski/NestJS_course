@@ -27,7 +27,7 @@
 }
 
 {
-  //* Inny sposów definiowania klasy
+  //* Inny sposób definiowania klasy
   class Vehicle {
     run() {
       console.log("Brum, brum...");
