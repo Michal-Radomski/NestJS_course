@@ -1,17 +1,33 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Controller, Get, Headers, Ip, Query, Req, Res } from '@nestjs/common';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Controller,
+  Get,
+  Header,
+  Headers,
+  HttpCode,
+  Ip,
+  Post,
+  Query,
+  Redirect,
+  Req,
+  Res,
+} from '@nestjs/common';
+
 import { Request, Response } from 'express';
 
-@Controller('fox')
+@Controller('/fox')
 export class FoxController {
-  @Get()
+  @Get('/') //* http://localhost:3000/fox?name=Mich&surname=Rad
+  @HttpCode(200)
+  @Header('X-My-Test', 'My Test')
+  // @Redirect('/test')
   async myFirstAction(
     @Headers('accept-encoding') encoding: string,
     @Ip() ip: string,
     @Query('name') name: string,
     @Query('surname') surname: string,
     @Req() req: Request,
+
     // @Res() response: Response, //* Res wyłącza wszystko inne!!!
   ): Promise<any> {
     // response.status(200).send('Hello');
@@ -28,5 +44,13 @@ export class FoxController {
     ` + [1, 2, 3]
     );
     // return [1, 2, 3];
+  }
+  @Get('/second') //* http://localhost:3000/fox/second
+  mySecondAction(): string {
+    return 'Hello World2';
+  }
+  @Post('/')
+  postItem(): string {
+    return 'Ok';
   }
 }
