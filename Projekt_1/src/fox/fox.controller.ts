@@ -5,6 +5,7 @@ import {
   Header,
   Headers,
   HttpCode,
+  Inject,
   Ip,
   Post,
   Query,
@@ -15,8 +16,12 @@ import {
 
 import { Request, Response } from 'express';
 
+import { FoxService } from './fox.service';
+
 @Controller('/fox')
 export class FoxController {
+  constructor(@Inject(FoxService) private foxService: FoxService) {}
+
   @Get('/') //* http://localhost:3000/fox?name=Mich&surname=Rad
   @HttpCode(200)
   @Header('X-My-Test', 'My Test')
@@ -49,8 +54,8 @@ export class FoxController {
   mySecondAction(): string {
     return 'Hello World2';
   }
-  @Post('/')
-  postItem(): string {
-    return 'Ok';
-  }
+  // @Post('/')
+  // postItem(): string {
+  //   return 'Ok';
+  // }
 }
