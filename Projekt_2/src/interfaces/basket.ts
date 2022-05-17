@@ -10,3 +10,7 @@ export type AddProductToBasketResponse =
   | {
       isSuccess: false;
     };
+
+export interface RemoveProductFromBasketResponse {
+  isSuccess: boolean;
+}
