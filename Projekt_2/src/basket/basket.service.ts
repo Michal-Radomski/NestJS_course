@@ -77,6 +77,15 @@ export class BasketService {
   }
   getTotalPrice(): GetTotalPriceResponse {
     console.log('this.items:', this.items);
+
+    if (!this.items.every((item) => this.shopService.hasProduct(item.name))) {
+      const alternativeBasket = this.items.filter((item) =>
+        this.shopService.hasProduct(item.name),
+      );
+
+      return { isSuccess: false, alternativeBasket: alternativeBasket };
+    }
+
     return this.items
       .map(
         (item) =>
