@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { BasketService } from 'src/basket/basket.service';
 import { GetListOfProductsResponse } from 'src/interfaces/shop';
 
 @Injectable()
 export class ShopService {
+  constructor(
+    @Inject(forwardRef(() => BasketService))
+    private basketService: BasketService,
+  ) {}
+
   getProducts(): GetListOfProductsResponse {
     return [
       {
@@ -11,9 +17,9 @@ export class ShopService {
         price: 4,
       },
       {
-        name: 'Kapusta kiszona',
+        name: 'Kapusta kiszona z promocją',
         description: 'Bardzo dobra kapusta kiszona',
-        price: 6,
+        price: 6 - this.basketService.countPromo(),
       },
       {
         name: 'Cytryny kiszone',
