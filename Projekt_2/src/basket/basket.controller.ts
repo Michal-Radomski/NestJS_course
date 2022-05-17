@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import {
   AddProductToBasketResponse,
+  GetTotalPriceResponse,
+  ListProductsInBasketResponse,
   RemoveProductFromBasketResponse,
 } from 'src/interfaces/basket';
 import { BasketService } from './basket.service';
@@ -33,5 +35,14 @@ export class BasketController {
     @Param('index') index: string,
   ): RemoveProductFromBasketResponse {
     return this.basketService.remove(Number(index));
+  }
+
+  @Get('/')
+  listProductsInBasket(): ListProductsInBasketResponse {
+    return this.basketService.list();
+  }
+  @Get('/total-price')
+  getTotalPrice(): GetTotalPriceResponse {
+    return this.basketService.getTotalPrice();
   }
 }
