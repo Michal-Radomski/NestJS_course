@@ -5,6 +5,7 @@ import {
   Inject,
   Param,
   Redirect,
+  Scope,
 } from '@nestjs/common';
 import { GetListOfProductsResponse } from 'src/interfaces/shop';
 import { ShopService } from './shop.service';
@@ -14,8 +15,21 @@ import { ShopService } from './shop.service';
   path: '/shop',
   // host: 'zzz.lvh.me',
   host: ':name.localhost',
+  scope: Scope.REQUEST,
 })
 export class ShopController {
+  onModuleInit() {
+    console.log('onModuleInit');
+  }
+
+  onApplicationBootstrap() {
+    console.log('onApplicationBootstrap');
+  }
+
+  onApplicationShutdown() {
+    console.log('onApplicationShutdown');
+  }
+
   constructor(@Inject(ShopService) private shopService: ShopService) {}
 
   @Get('/')
