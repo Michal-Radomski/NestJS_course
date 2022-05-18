@@ -33,7 +33,7 @@ export class ShopController {
   constructor(@Inject(ShopService) private shopService: ShopService) {}
 
   @Get('/')
-  getListOfProducts(): GetListOfProductsResponse {
+  getListOfProducts(): Promise<GetListOfProductsResponse> {
     // return [
     //   {
     //     name: 'Ogórki kiszone',
