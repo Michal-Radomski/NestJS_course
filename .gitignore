@@ -15,3 +15,5 @@ node_modules/
 # Next.js build output
 .next
 
+# My Entries
+ormconfig.json
