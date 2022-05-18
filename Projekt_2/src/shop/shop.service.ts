@@ -44,4 +44,22 @@ export class ShopService {
   async getPriceOfProduct(name: string): Promise<number> {
     return (await this.getProducts()).find((item) => item.name === name).price;
   }
+
+  async getOneProduct(id: string): Promise<ShopItem> {
+    // return this.shopItemRepository.findOne(id);
+    return this.shopItemRepository.findOneOrFail(id);
+  }
+
+  async removeProduct(id: string) {
+    await this.shopItemRepository.delete(id);
+  }
+
+  async createDummyProduct(): Promise<ShopItem> {
+    const newItem = new ShopItem();
+    newItem.name = 'Bardzo duży ogórek';
+    newItem.price = 100;
+    newItem.description = 'Naprawdę duży i drogi ogórek';
+    await this.shopItemRepository.save(newItem);
+    return newItem;
+  }
 }

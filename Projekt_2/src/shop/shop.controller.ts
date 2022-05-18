@@ -1,20 +1,26 @@
 import {
   Controller,
+  Delete,
   Get,
   HostParam,
   Inject,
   Param,
+  Post,
   Redirect,
   Scope,
 } from '@nestjs/common';
-import { GetListOfProductsResponse } from 'src/interfaces/shop';
+import {
+  CreateProductResponse,
+  GetListOfProductsResponse,
+  GetOneProductResponse,
+} from 'src/interfaces/shop';
 import { ShopService } from './shop.service';
 
 // @Controller('/shop')
 @Controller({
   path: '/shop',
   // host: 'zzz.lvh.me',
-  host: ':name.localhost',
+  // host: ':name.localhost',
   scope: Scope.REQUEST,
 })
 export class ShopController {
@@ -53,6 +59,12 @@ export class ShopController {
     // ];
     return this.shopService.getProducts();
   }
+
+  @Get('/:id')
+  getOneProduct(@Param('id') id: string): Promise<GetOneProductResponse> {
+    return this.shopService.getOneProduct(id);
+  }
+
   @Get('/test/:age')
   // @Redirect('/test2')
   @Redirect()
@@ -68,5 +80,15 @@ export class ShopController {
   @Get('/welcome')
   welcome(@HostParam('name') siteName: string): string {
     return `Witaj na sklepie ${siteName}`;
+  }
+
+  @Delete('/:id')
+  removeProduct(@Param('id') id: string): void {
+    this.shopService.removeProduct(id);
+  }
+
+  @Post('/')
+  createNewProduct(): Promise<CreateProductResponse> {
+    return this.shopService.createDummyProduct();
   }
 }
