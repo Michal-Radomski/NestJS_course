@@ -17,3 +17,4 @@ node_modules/
 
 # My Entries
 ormconfig.json
+ormconfig.back.json
