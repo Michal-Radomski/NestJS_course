@@ -9,10 +9,8 @@ import { ShopItem } from './shop-item.entity';
 export class ShopService {
   constructor(
     @Inject(forwardRef(() => BasketService))
-    private basketService: BasketService,
-  ) // @InjectRepository(ShopItem)
-  // private shopItemRepository: Repository<ShopItem>,
-  {}
+    private basketService: BasketService, // @InjectRepository(ShopItem) // private shopItemRepository: Repository<ShopItem>,
+  ) {}
 
   // getProducts(): GetListOfProductsResponse {
   //   return [
@@ -83,5 +81,41 @@ export class ShopService {
     item.boughtCounter++;
     // await this.shopItemRepository.save(item);  //* Data Mapper
     await ShopItem.save(item); //* Active Record
+  }
+
+  async findProducts(): Promise<GetListOfProductsResponse> {
+    //* Active Record
+    return await ShopItem.find({
+      description: 'Jeszcze lepsze ogórki',
+    });
+  }
+  // async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
+  //   //* Active Record
+  //   return await ShopItem.find({
+  //     description: searchTerm,
+  //     price: 10.99,
+  //   });
+  // }
+  // async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
+  //   //* Active Record
+  //   console.log('searchTerm:', searchTerm);
+  //   return await ShopItem.find({
+  //     // select: ['id', 'price'], //* w ORM tylko gdy problemu z wydajnością
+  //     where: {
+  //       name: searchTerm,
+  //       price: 9.99,
+  //     },
+  //   });
+  // }
+  async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
+    //* Active Record
+    console.log('searchTerm:', searchTerm);
+    return await ShopItem.find({
+      // select: ['id', 'price'], //* w ORM tylko gdy problemu z wydajnością
+      order: {
+        // price: 'DESC',
+        price: 'ASC',
+      },
+    });
   }
 }

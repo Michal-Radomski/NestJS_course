@@ -60,6 +60,18 @@ export class ShopController {
     return this.shopService.getProducts();
   }
 
+  @Get('/find')
+  testFindItem(): Promise<GetListOfProductsResponse> {
+    return this.shopService.findProducts();
+  }
+  @Get('/find/:searchTerm')
+  testFindItem2(
+    @Param('searchTerm') searchTerm: string,
+  ): Promise<GetListOfProductsResponse> {
+    console.log('searchTerm:', searchTerm);
+    return this.shopService.findProducts2(searchTerm);
+  }
+
   @Get('/:id')
   getOneProduct(@Param('id') id: string): Promise<GetOneProductResponse> {
     return this.shopService.getOneProduct(id);
