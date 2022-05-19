@@ -1,7 +1,10 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 // import { InjectRepository } from '@nestjs/typeorm';
 import { BasketService } from 'src/basket/basket.service';
-import { GetListOfProductsResponse } from 'src/interfaces/shop';
+import {
+  GetListOfProductsResponse,
+  GetPaginatedListOfProductsResponse,
+} from 'src/interfaces/shop';
 // import { Repository } from 'typeorm';
 import { ShopItem } from './shop-item.entity';
 
@@ -35,9 +38,61 @@ export class ShopService {
   // async getProducts(): Promise<GetListOfProductsResponse> { //* Data Mapper
   //   return await this.shopItemRepository.find();
   // }
-  async getProducts(): Promise<GetListOfProductsResponse> {
+
+  // async getProducts(): Promise<GetListOfProductsResponse> {
+  //   //* Active Record
+  //   const countNumber = await ShopItem.count();
+  //   console.log('countNumber:', countNumber);
+  //   return await ShopItem.find();
+  // }
+
+  // async getProducts(): Promise<GetListOfProductsResponse> {
+  //   //* Active Record
+  //   const maxPerPage = 2;
+  //   const currentPage = 2;
+  //   const [items, count] = await ShopItem.findAndCount({
+  //     skip: maxPerPage * (currentPage - 1),
+  //     take: maxPerPage,
+  //   });
+  //   const totalPages = Math.ceil(count / maxPerPage);
+  //   console.log({ count: count, totalPages: totalPages });
+  //   // const countNumber = await ShopItem.count();
+  //   // console.log('countNumber:', countNumber);
+  //   // return await ShopItem.find();
+  //   //* Paginacja
+  //   // return await ShopItem.find({
+  //   //   take: 2,
+  //   //   skip: 2,
+  //   // });
+  //   //* Paginacja v2
+  //   return await items;
+  // }
+
+  async getProducts(
+    currentPage: number = 1,
+  ): Promise<GetPaginatedListOfProductsResponse> {
     //* Active Record
-    return await ShopItem.find();
+    const maxPerPage = 2;
+    // const currentPage = 2;
+    const [items, count] = await ShopItem.findAndCount({
+      skip: maxPerPage * (currentPage - 1),
+      take: maxPerPage,
+    });
+    const totalPages = Math.ceil(count / maxPerPage);
+    console.log({ count: count, totalPages: totalPages });
+    // const countNumber = await ShopItem.count();
+    // console.log('countNumber:', countNumber);
+    // return await ShopItem.find();
+    //* Paginacja
+    // return await ShopItem.find({
+    //   take: 2,
+    //   skip: 2,
+    // });
+    //* Paginacja v2
+    return await {
+      items: items,
+      totalPages: totalPages,
+    };
   }
 
   async hasProduct(name: string): Promise<boolean> {

@@ -13,6 +13,7 @@ import {
   CreateProductResponse,
   GetListOfProductsResponse,
   GetOneProductResponse,
+  GetPaginatedListOfProductsResponse,
 } from 'src/interfaces/shop';
 import { ShopService } from './shop.service';
 
@@ -38,26 +39,32 @@ export class ShopController {
 
   constructor(@Inject(ShopService) private shopService: ShopService) {}
 
-  @Get('/')
-  getListOfProducts(): Promise<GetListOfProductsResponse> {
-    // return [
-    //   {
-    //     name: 'Ogórki kiszone',
-    //     description: 'Bardzo dobre ogórki kiszone',
-    //     price: 4,
-    //   },
-    //   {
-    //     name: 'Kapusta kiszona',
-    //     description: 'Bardzo dobra kapusta kiszona',
-    //     price: 6,
-    //   },
-    //   {
-    //     name: 'Cytryny kiszone',
-    //     description: 'Bardzo dobre cytryny kiszone',
-    //     price: 5,
-    //   },
-    // ];
-    return this.shopService.getProducts();
+  // @Get('/')
+  // getListOfProducts(): Promise<GetListOfProductsResponse> {
+  //   // return [
+  //   //   {
+  //   //     name: 'Ogórki kiszone',
+  //   //     description: 'Bardzo dobre ogórki kiszone',
+  //   //     price: 4,
+  //   //   },
+  //   //   {
+  //   //     name: 'Kapusta kiszona',
+  //   //     description: 'Bardzo dobra kapusta kiszona',
+  //   //     price: 6,
+  //   //   },
+  //   //   {
+  //   //     name: 'Cytryny kiszone',
+  //   //     description: 'Bardzo dobre cytryny kiszone',
+  //   //     price: 5,
+  //   //   },
+  //   // ];
+  //   return this.shopService.getProducts();
+  // }
+  @Get('/:pageNumber')
+  getListOfProducts(
+    @Param('pageNumber') pageNumber: string,
+  ): Promise<GetPaginatedListOfProductsResponse> {
+    return this.shopService.getProducts(Number(pageNumber));
   }
 
   @Get('/find')
