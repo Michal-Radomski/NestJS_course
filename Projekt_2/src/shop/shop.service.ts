@@ -5,6 +5,7 @@ import {
   GetListOfProductsResponse,
   GetPaginatedListOfProductsResponse,
 } from 'src/interfaces/shop';
+import { Between, LessThan, LessThanOrEqual } from 'typeorm';
 // import { Repository } from 'typeorm';
 import { ShopItem } from './shop-item.entity';
 
@@ -144,6 +145,7 @@ export class ShopService {
       description: 'Jeszcze lepsze ogórki',
     });
   }
+
   // async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
   //   //* Active Record
   //   return await ShopItem.find({
@@ -151,6 +153,7 @@ export class ShopService {
   //     price: 10.99,
   //   });
   // }
+
   // async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
   //   //* Active Record
   //   console.log('searchTerm:', searchTerm);
@@ -162,15 +165,26 @@ export class ShopService {
   //     },
   //   });
   // }
+
+  // async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
+  //   //* Active Record
+  //   console.log('searchTerm:', searchTerm);
+  //   return await ShopItem.find({
+  //     // select: ['id', 'price'], //* w ORM tylko gdy problemu z wydajnością
+  //     order: {
+  //       // price: 'DESC',
+  //       price: 'ASC',
+  //     },
+  //   });
+  // }
+
   async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {
     //* Active Record
     console.log('searchTerm:', searchTerm);
     return await ShopItem.find({
-      // select: ['id', 'price'], //* w ORM tylko gdy problemu z wydajnością
-      order: {
-        // price: 'DESC',
-        price: 'ASC',
-      },
+      // where: [{ description: 'Włoskie ogórki' }, { price: 100, name: 'test' }], //* description or (price and name)
+      // where: { price: LessThanOrEqual(100) },
+      where: { price: Between(10, 100) },
     });
   }
 }
