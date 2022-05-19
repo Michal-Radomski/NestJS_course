@@ -5,7 +5,15 @@ import {
   GetListOfProductsResponse,
   GetPaginatedListOfProductsResponse,
 } from 'src/interfaces/shop';
-import { Between, LessThan, LessThanOrEqual, Like } from 'typeorm';
+import {
+  Between,
+  In,
+  LessThan,
+  LessThanOrEqual,
+  Like,
+  Not,
+  Raw,
+} from 'typeorm';
 // import { Repository } from 'typeorm';
 import { ShopItem } from './shop-item.entity';
 
@@ -185,7 +193,12 @@ export class ShopService {
       // where: [{ description: 'Włoskie ogórki' }, { price: 100, name: 'test' }], //* description or (price and name)
       // where: { price: LessThanOrEqual(100) },
       // where: { price: Between(10, 100) },
-      where: { description: Like(`%${searchTerm}%`) }, //* w środku searchTerm
+      // where: { description: Like(`%${searchTerm}%`) }, //* w środku searchTerm
+      // where: {
+      //   id: In(['4c768c41-d79b-11ec-83fc-b4a9fce70b24']),
+      // },
+      // where: { price: Not(LessThan(12)) },
+      where: { price: Raw((field) => `${field}=10.99`) },
     });
   }
 }
