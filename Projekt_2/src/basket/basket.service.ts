@@ -36,8 +36,8 @@ export class BasketService {
   //   };
   // }
   add(item: AddProductDto): AddProductToBasketResponse {
-    const { count, name } = item;
-    console.log('count:', count, 'name:', name, 'item:', item);
+    const { count, name, id } = item;
+    console.log('count:', count, 'name:', name, 'item:', item, 'id:', id);
     if (
       typeof name !== 'string' ||
       typeof count !== 'number' ||
@@ -49,6 +49,9 @@ export class BasketService {
     }
 
     this.items.push(item);
+
+    this.shopService.addBoughtCounter(id);
+
     console.log('this.items:', this.items);
     return {
       isSuccess: true,

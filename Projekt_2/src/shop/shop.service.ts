@@ -62,4 +62,13 @@ export class ShopService {
     await this.shopItemRepository.save(newItem);
     return newItem;
   }
+
+  async addBoughtCounter(id: string): Promise<void> {
+    await this.shopItemRepository.update(id, {
+      wasEverBought: true,
+    });
+    const item = await this.shopItemRepository.findOne(id);
+    item.boughtCounter++;
+    await this.shopItemRepository.save(item);
+  }
 }
