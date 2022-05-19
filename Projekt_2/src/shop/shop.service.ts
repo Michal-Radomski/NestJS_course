@@ -5,7 +5,7 @@ import {
   GetListOfProductsResponse,
   GetPaginatedListOfProductsResponse,
 } from 'src/interfaces/shop';
-import { Between, LessThan, LessThanOrEqual } from 'typeorm';
+import { Between, LessThan, LessThanOrEqual, Like } from 'typeorm';
 // import { Repository } from 'typeorm';
 import { ShopItem } from './shop-item.entity';
 
@@ -184,7 +184,11 @@ export class ShopService {
     return await ShopItem.find({
       // where: [{ description: 'Włoskie ogórki' }, { price: 100, name: 'test' }], //* description or (price and name)
       // where: { price: LessThanOrEqual(100) },
-      where: { price: Between(10, 100) },
+      // where: { price: Between(10, 100) },
+      where: { description: Like(`%${searchTerm}%`) }, //* w środku searchTerm
     });
   }
 }
+
+//* Examples
+//* WHERE CustomerName LIKE 'a_%' -> Finds any values that start with "a" and are at least 2 characters in length
