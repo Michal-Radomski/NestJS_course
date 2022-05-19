@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ShopItemDetails } from './shop-item-details.entity';
 
 // @Entity()  //* Data Mapper
 // export class ShopItem {
@@ -85,4 +93,8 @@ export class ShopItem extends BaseEntity {
     type: 'boolean',
   })
   wasEverBought: boolean;
+
+  @OneToOne((_type) => ShopItemDetails)
+  @JoinColumn()
+  details: ShopItemDetails;
 }
