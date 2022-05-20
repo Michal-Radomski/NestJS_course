@@ -3,12 +3,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ShopItemDetails } from './shop-item-details.entity';
+import { ShopSet } from './shop-set.entity';
 
 // @Entity()  //* Data Mapper
 // export class ShopItem {
@@ -107,4 +109,8 @@ export class ShopItem extends BaseEntity {
   //* Produkt Główny
   @OneToMany((_type) => ShopItem, (entity) => entity.mainShopItem)
   subShopItems: ShopItem[];
+
+  @ManyToMany((_type) => ShopSet, (entity) => entity.items)
+  @JoinColumn()
+  sets: ShopSet[];
 }
