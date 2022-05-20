@@ -39,27 +39,6 @@ export class ShopController {
 
   constructor(@Inject(ShopService) private shopService: ShopService) {}
 
-  // @Get('/')
-  // getListOfProducts(): Promise<GetListOfProductsResponse> {
-  //   // return [
-  //   //   {
-  //   //     name: 'Ogórki kiszone',
-  //   //     description: 'Bardzo dobre ogórki kiszone',
-  //   //     price: 4,
-  //   //   },
-  //   //   {
-  //   //     name: 'Kapusta kiszona',
-  //   //     description: 'Bardzo dobra kapusta kiszona',
-  //   //     price: 6,
-  //   //   },
-  //   //   {
-  //   //     name: 'Cytryny kiszone',
-  //   //     description: 'Bardzo dobre cytryny kiszone',
-  //   //     price: 5,
-  //   //   },
-  //   // ];
-  //   return this.shopService.getProducts();
-  // }
   @Get('/:pageNumber')
   getListOfProducts(
     @Param('pageNumber') pageNumber: string,
@@ -67,10 +46,6 @@ export class ShopController {
     return this.shopService.getProducts(Number(pageNumber));
   }
 
-  // @Get('/find')
-  // testFindItem(): Promise<GetListOfProductsResponse> {
-  //   return this.shopService.findProducts();
-  // }
   @Get('/find')
   testFindItem(searchTerm: string): Promise<GetListOfProductsResponse> {
     return this.shopService.findProducts(searchTerm);
@@ -108,10 +83,5 @@ export class ShopController {
   @Delete('/:id')
   removeProduct(@Param('id') id: string): void {
     this.shopService.removeProduct(id);
-  }
-
-  @Post('/')
-  createNewProduct(): Promise<CreateProductResponse> {
-    return this.shopService.createDummyProduct();
   }
 }

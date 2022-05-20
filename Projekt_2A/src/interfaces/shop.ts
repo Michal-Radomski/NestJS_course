@@ -1,20 +1,18 @@
-interface ShopItem {
-  id: string;
+export interface ShopItemInterface {
   name: string;
   description: string;
   price: number;
-  createdAt: Date;
 }
 
-export type GetListOfProductsResponse = ShopItem[];
+export type GetListOfProductsResponse = ShopItemInterface[];
 
-export type GetOneProductResponse = ShopItem;
+export type GetOneProductResponse = ShopItemInterface;
 
-export type CreateProductResponse = ShopItem;
+export type CreateProductResponse = ShopItemInterface;
 
 export interface GetPaginatedListOfProductsResponse {
-  find?(arg0: (item: ShopItem) => boolean);
-  some?(arg0: (item: ShopItem) => boolean): boolean;
-  items: ShopItem[];
+  find?(arg0: (item: ShopItemInterface) => boolean);
+  some?(arg0: (item: ShopItemInterface) => boolean): boolean;
+  items: ShopItemInterface[];
   totalPages: number;
 }
