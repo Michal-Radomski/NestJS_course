@@ -182,6 +182,9 @@ export class ShopService {
       .where('shopItem.description LIKE :searchTerm', {
         searchTerm: `%${searchTerm}%`,
       })
+      .orderBy('shopItem.id', 'ASC')
+      .skip(0)
+      .take(2)
       .getMany();
   }
 
