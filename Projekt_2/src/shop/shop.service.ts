@@ -7,6 +7,7 @@ import {
 } from 'src/interfaces/shop';
 import {
   Between,
+  getConnection,
   In,
   LessThan,
   LessThanOrEqual,
@@ -14,6 +15,7 @@ import {
   Not,
   Raw,
 } from 'typeorm';
+import { ShopItemDetails } from './shop-item-details.entity';
 // import { Repository } from 'typeorm';
 import { ShopItem } from './shop-item.entity';
 
@@ -84,6 +86,7 @@ export class ShopService {
     const maxPerPage = 2;
     // const currentPage = 2;
     const [items, count] = await ShopItem.findAndCount({
+      relations: ['details'],
       skip: maxPerPage * (currentPage - 1),
       take: maxPerPage,
     });
@@ -124,11 +127,21 @@ export class ShopService {
 
   async createDummyProduct(): Promise<ShopItem> {
     const newItem = new ShopItem();
-    newItem.name = 'Bardzo duży ogórek';
-    newItem.price = 100;
-    newItem.description = 'Naprawdę duży i drogi ogórek';
+    newItem.name = 'Nowy ogórek';
+    newItem.price = 15.95;
+    newItem.description = 'Nowy ogórek - naprawdę nowy';
     // await this.shopItemRepository.save(newItem);  //* Data Mapper
     await newItem.save(); //* Active Record
+
+    const details = new ShopItemDetails();
+    details.color = 'green';
+    details.width = 20;
+    await details.save();
+
+    newItem.details = details;
+    // newItem.details=null //* Do usuwania
+    await newItem.save();
+
     return newItem;
   }
 
@@ -147,11 +160,29 @@ export class ShopService {
     await ShopItem.save(item); //* Active Record
   }
 
-  async findProducts(): Promise<GetListOfProductsResponse> {
-    //* Active Record
-    return await ShopItem.find({
-      description: 'Jeszcze lepsze ogórki',
-    });
+  // async findProducts(): Promise<GetListOfProductsResponse> {
+  //   //* Active Record
+  //   return await ShopItem.find({
+  //     description: 'Jeszcze lepsze ogórki',
+  //   });
+  // }
+  async findProducts(searchTerm: string): Promise<GetListOfProductsResponse> {
+    const CountSQL = await getConnection()
+      .createQueryBuilder()
+      .select('COUNT(shopItem.id)', 'CountSQL')
+      .from(ShopItem, 'shopItem')
+      .getRawOne();
+
+    console.log('CountSQL: ', CountSQL);
+
+    return await getConnection()
+      .createQueryBuilder()
+      .select('shopItem')
+      .from(ShopItem, 'shopItem')
+      .where('shopItem.description LIKE :searchTerm', {
+        searchTerm: `%${searchTerm}%`,
+      })
+      .getMany();
   }
 
   // async findProducts2(searchTerm: string): Promise<GetListOfProductsResponse> {

@@ -98,7 +98,7 @@ export class ShopItem extends BaseEntity {
   })
   wasEverBought: boolean;
 
-  @OneToOne((_type) => ShopItemDetails)
+  @OneToOne((_type) => ShopItemDetails, { eager: true }) //* Raczej nie stosować
   @JoinColumn()
   details: ShopItemDetails;
 

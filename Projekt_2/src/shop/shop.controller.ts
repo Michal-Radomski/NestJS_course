@@ -67,9 +67,13 @@ export class ShopController {
     return this.shopService.getProducts(Number(pageNumber));
   }
 
+  // @Get('/find')
+  // testFindItem(): Promise<GetListOfProductsResponse> {
+  //   return this.shopService.findProducts();
+  // }
   @Get('/find')
-  testFindItem(): Promise<GetListOfProductsResponse> {
-    return this.shopService.findProducts();
+  testFindItem(searchTerm: string): Promise<GetListOfProductsResponse> {
+    return this.shopService.findProducts(searchTerm);
   }
   @Get('/find/:searchTerm')
   testFindItem2(
