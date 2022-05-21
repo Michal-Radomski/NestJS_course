@@ -29,24 +29,25 @@ export class BasketController {
     return this.basketService.add(item);
   }
 
-  @Delete('/')
-  clearBasket(): void {
-    this.basketService.clearBasket();
+  @Delete('/all/:userId')
+  clearBasket(@Param('userId') userId: string): void {
+    this.basketService.clearBasket(userId);
   }
 
-  @Delete('/:id')
+  @Delete('/:itemInBasketId/:userId')
   removeProductFromBasket(
-    @Param('id') id: string,
+    @Param('itemInBasketId') itemInBasketId: string,
+    @Param('userId') userId: string,
   ): Promise<RemoveFromBasketResponse> {
-    return this.basketService.remove(id);
+    return this.basketService.remove(itemInBasketId, userId);
   }
 
-  @Get('/clear_all')
-  getBasket(): Promise<GetBasketResponse> {
-    return this.basketService.getAll();
+  @Get('/:userId')
+  getBasket(@Param('userId') userId: string): Promise<GetBasketResponse> {
+    return this.basketService.getAllForUser(userId);
   }
-  @Get('/total-price')
-  getTotalBasketPrice(): Promise<number> {
-    return this.basketService.getTotalPrice();
+  @Get('/total-price/:userId')
+  getTotalBasketPrice(@Param('userId') userId: string): Promise<number> {
+    return this.basketService.getTotalPrice(userId);
   }
 }

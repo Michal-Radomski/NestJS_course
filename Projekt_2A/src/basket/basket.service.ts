@@ -29,24 +29,41 @@ export class BasketService {
       !shopItem ||
       !user
     ) {
-      const item = new ItemInBasket();
-
-      item.count = count;
-
-      await item.save();
-      item.shopItem = shopItem;
-      item.user = user;
-
-      await item.save();
       return {
-        isSuccess: true,
-        id: item.id,
+        isSuccess: false,
       };
     }
+
+    const item = new ItemInBasket();
+
+    item.count = count;
+
+    await item.save();
+    item.shopItem = shopItem;
+    item.user = user;
+
+    await item.save();
+    return {
+      isSuccess: true,
+      id: item.id,
+    };
   }
 
-  async remove(id: string): Promise<RemoveFromBasketResponse> {
-    const item = await ItemInBasket.findOne(id);
+  async remove(
+    itemInBasketId: string,
+    userId: string,
+  ): Promise<RemoveFromBasketResponse> {
+    const user = await this.userService.getOneUser(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const item = await ItemInBasket.findOne({
+      where: {
+        id: itemInBasketId,
+        user: user,
+      },
+    });
 
     if (item) {
       await item.remove();
@@ -54,18 +71,39 @@ export class BasketService {
     }
     return { isSuccess: false };
   }
-  async getAll(): Promise<ItemInBasket[]> {
+  // async getAll(): Promise<ItemInBasket[]> {
+  //   return ItemInBasket.find({
+  //     relations: ['shopItem'],
+  //   });
+  // }
+  async getAllForUser(userId: string): Promise<ItemInBasket[]> {
+    const user = await this.userService.getOneUser(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     return ItemInBasket.find({
+      where: {
+        user: user,
+      },
+
       relations: ['shopItem'],
     });
   }
 
-  async clearBasket(): Promise<void> {
-    await ItemInBasket.delete({});
+  async clearBasket(userId: string): Promise<void> {
+    const user = await this.userService.getOneUser(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    await ItemInBasket.delete({ user: user });
   }
 
-  async getTotalPrice(): Promise<number> {
-    const items = await this.getAll();
+  async getTotalPrice(userId: string): Promise<number> {
+    const items = await this.getAllForUser(userId);
 
     return (
       await Promise.all(
