@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ShopItem } from 'src/shop/shop-item.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { AddItemDto } from './dto/add-item.dto';
 
 @Entity()
@@ -13,4 +21,8 @@ export class ItemInBasket extends BaseEntity implements AddItemDto {
 
   @Column()
   count: number;
+
+  @OneToOne((_type) => ShopItem, (entity) => entity.itemInBaseBasket)
+  @JoinColumn()
+  shopItem: ShopItem;
 }

@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ItemInBasket } from 'src/basket/item-in-basket.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ShopItemInterface } from '../interfaces/shop';
 
 @Entity()
@@ -22,4 +29,7 @@ export class ShopItem extends BaseEntity implements ShopItemInterface {
     scale: 2,
   })
   price: number;
+
+  @OneToOne((_type) => ItemInBasket, (entity) => entity.shopItem)
+  itemInBaseBasket: ItemInBasket;
 }
