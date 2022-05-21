@@ -5,9 +5,10 @@ import { AppService } from './app.service';
 
 import { BasketModule } from './basket/basket.module';
 import { ShopModule } from './shop/shop.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [BasketModule, ShopModule, TypeOrmModule.forRoot()],
+  imports: [BasketModule, ShopModule, TypeOrmModule.forRoot(), UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
