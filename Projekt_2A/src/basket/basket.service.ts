@@ -1,82 +1,57 @@
-import { forwardRef, Inject, Injectable, Scope } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import {
-  AddProductToBasketResponse,
-  GetTotalPriceResponse,
-  ListProductsInBasketResponse,
-  RemoveProductFromBasketResponse,
+  AddToBasketResponse,
+  GetBasketResponse,
+  RemoveFromBasketResponse,
 } from 'src/interfaces/basket';
 import { ShopService } from 'src/shop/shop.service';
-import { AddProductDto } from './dto/add-product.dto';
+import { AddItemDto } from './dto/add-item.dto';
 
-@Injectable({
-  scope: Scope.REQUEST,
-})
+@Injectable()
 export class BasketService {
-  private items: AddProductDto[] = [];
+  private items: AddItemDto[] = [];
 
   constructor(
     @Inject(forwardRef(() => ShopService)) private shopService: ShopService,
   ) {}
 
-  add(item: AddProductDto): AddProductToBasketResponse {
-    const { count, name, id } = item;
-    console.log('count:', count, 'name:', name, 'item:', item, 'id:', id);
+  async add(product: AddItemDto): Promise<AddToBasketResponse> {
+    const { count, name } = product;
+
     if (
       typeof name !== 'string' ||
       typeof count !== 'number' ||
       name === '' ||
       count < 1 ||
-      !this.shopService.hasProduct(name)
+      !(await this.shopService.hasItem(name))
     ) {
-      return { isSuccess: false };
+      return {
+        isSuccess: false,
+      };
     }
-
-    this.items.push(item);
-
-    console.log('this.items:', this.items);
-    return {
-      isSuccess: true,
-      index: this.items.length - 1,
-    };
   }
 
-  remove(index: number): RemoveProductFromBasketResponse {
-    const { items } = this;
+  remove(number: number): RemoveFromBasketResponse {
+    if (this.items[number]) {
+      this.items.splice(number, 1);
 
-    if (index < 0 || index >= items.length) {
-      return { isSuccess: false };
-    } else {
-      items.splice(index, 1);
-      console.log('items:', items);
       return { isSuccess: true };
     }
+
+    return { isSuccess: false };
   }
-  list(): ListProductsInBasketResponse {
+  getAll(): GetBasketResponse {
     return this.items;
   }
-  async getTotalPrice(): Promise<GetTotalPriceResponse> {
-    console.log('this.items:', this.items);
 
-    if (!this.items.every((item) => this.shopService.hasProduct(item.name))) {
-      const alternativeBasket = this.items.filter((item) =>
-        this.shopService.hasProduct(item.name),
-      );
-
-      return { isSuccess: false, alternativeBasket: alternativeBasket };
-    }
-
+  async getTotalPrice(): Promise<number> {
     return (
       await Promise.all(
         this.items.map(
           async (item) =>
-            (await this.shopService.getPriceOfProduct(item.name)) *
-            item.count *
-            1.23,
+            (await this.shopService.getPrice(item.name)) * item.count * 1.23,
         ),
       )
     ).reduce((prev, curr) => prev + curr, 0);
-  }
-  async countPromo(): Promise<number> {
-    return (await this.getTotalPrice()) > 10 ? 1 : 0;
   }
 }

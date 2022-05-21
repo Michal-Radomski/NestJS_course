@@ -1,25 +1,21 @@
-import { AddProductDto } from 'src/basket/dto/add-product.dto';
+// export type GetTotalBasketPriceResponse = number;
 
-// export default interface AddProductToBasketResponse {
-//   isSuccess: boolean;
-//   index?: number;
-
-// }
-export type AddProductToBasketResponse =
+export type AddToBasketResponse =
   | {
       isSuccess: true;
-      index: number;
+      id: string;
     }
   | {
       isSuccess: false;
     };
 
-export interface RemoveProductFromBasketResponse {
+export interface RemoveFromBasketResponse {
   isSuccess: boolean;
 }
 
-export type ListProductsInBasketResponse = AddProductDto[];
+interface OneItemInBasket {
+  id: string;
+  count: number;
+}
 
-export type GetTotalPriceResponse =
-  | number
-  | { isSuccess: false; alternativeBasket: AddProductDto[] };
+export type GetBasketResponse = OneItemInBasket[];

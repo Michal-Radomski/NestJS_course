@@ -8,13 +8,12 @@ import {
   Post,
 } from '@nestjs/common';
 import {
-  AddProductToBasketResponse,
-  GetTotalPriceResponse,
-  ListProductsInBasketResponse,
-  RemoveProductFromBasketResponse,
+  AddToBasketResponse,
+  GetBasketResponse,
+  RemoveFromBasketResponse,
 } from 'src/interfaces/basket';
 import { BasketService } from './basket.service';
-import { AddProductDto } from './dto/add-product.dto';
+import { AddItemDto } from './dto/add-item.dto';
 
 @Controller('/basket')
 export class BasketController {
@@ -26,23 +25,23 @@ export class BasketController {
   }
 
   @Post('/')
-  addProductToBasket(@Body() item: AddProductDto): AddProductToBasketResponse {
+  addProductToBasket(@Body() item: AddItemDto): Promise<AddToBasketResponse> {
     return this.basketService.add(item);
   }
 
   @Delete('/:index')
   removeProductFromBasket(
     @Param('index') index: string,
-  ): RemoveProductFromBasketResponse {
+  ): RemoveFromBasketResponse {
     return this.basketService.remove(Number(index));
   }
 
   @Get('/')
-  listProductsInBasket(): ListProductsInBasketResponse {
-    return this.basketService.list();
+  getBasket(): GetBasketResponse {
+    return this.basketService.getAll();
   }
   @Get('/total-price')
-  getTotalPrice(): Promise<GetTotalPriceResponse> {
+  getTotalBasketPrice(): Promise<number> {
     return this.basketService.getTotalPrice();
   }
 }
