@@ -9,10 +9,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { AddItemDto } from './dto/add-item.dto';
 
 @Entity()
-export class ItemInBasket extends BaseEntity implements AddItemDto {
+export class ItemInBasket extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
