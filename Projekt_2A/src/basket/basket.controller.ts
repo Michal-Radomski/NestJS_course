@@ -29,14 +29,19 @@ export class BasketController {
     return this.basketService.add(item);
   }
 
-  @Delete('/:index')
-  removeProductFromBasket(
-    @Param('index') index: string,
-  ): Promise<RemoveFromBasketResponse> {
-    return this.basketService.remove(index);
+  @Delete('/')
+  clearBasket(): void {
+    this.basketService.clearBasket();
   }
 
-  @Get('/')
+  @Delete('/:id')
+  removeProductFromBasket(
+    @Param('id') id: string,
+  ): Promise<RemoveFromBasketResponse> {
+    return this.basketService.remove(id);
+  }
+
+  @Get('/clear_all')
   getBasket(): Promise<GetBasketResponse> {
     return this.basketService.getAll();
   }

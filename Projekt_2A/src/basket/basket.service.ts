@@ -6,7 +6,6 @@ import {
 import { ShopService } from 'src/shop/shop.service';
 import { AddItemDto } from './dto/add-item.dto';
 import { ItemInBasket } from './item-in-basket.entity';
-import { ShopItem } from '../shop/shop-item.entity';
 
 @Injectable()
 export class BasketService {
@@ -51,6 +50,10 @@ export class BasketService {
     return ItemInBasket.find({
       relations: ['shopItem'],
     });
+  }
+
+  async clearBasket(): Promise<void> {
+    await ItemInBasket.delete({});
   }
 
   async getTotalPrice(): Promise<number> {
