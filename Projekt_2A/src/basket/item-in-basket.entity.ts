@@ -9,8 +9,8 @@ export class ItemInBasket extends BaseEntity implements AddItemDto {
   @Column({
     length: 50,
   })
-  count: number;
+  name: string;
 
   @Column()
-  name: string;
+  count: number;
 }
