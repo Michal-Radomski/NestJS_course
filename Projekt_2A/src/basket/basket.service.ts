@@ -92,6 +92,12 @@ export class BasketService {
     });
   }
 
+  async getAllForAdmin(): Promise<ItemInBasket[]> {
+    return ItemInBasket.find({
+      relations: ['shopItem', 'user'],
+    });
+  }
+
   async clearBasket(userId: string): Promise<void> {
     const user = await this.userService.getOneUser(userId);
 
