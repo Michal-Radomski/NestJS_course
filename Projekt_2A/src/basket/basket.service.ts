@@ -1,10 +1,12 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import {
   AddToBasketResponse,
+  GetBasketStatsResponse,
   RemoveFromBasketResponse,
 } from 'src/interfaces/basket';
 import { ShopService } from 'src/shop/shop.service';
 import { UserService } from 'src/user/user.service';
+import { getConnection } from 'typeorm';
 import { AddItemDto } from './dto/add-item.dto';
 import { ItemInBasket } from './item-in-basket.entity';
 
@@ -116,5 +118,36 @@ export class BasketService {
         items.map(async (item) => item.shopItem.price * item.count * 1.23),
       )
     ).reduce((prev, curr) => prev + curr, 0);
+  }
+  async getStats(): Promise<GetBasketStatsResponse> {
+    const { itemInBasketAvgPrice }: { itemInBasketAvgPrice: number } =
+      await getConnection()
+        .createQueryBuilder()
+        .select('AVG(shopItem.price)', 'itemInBasketPrice')
+        .from(ItemInBasket, 'itemInBasket')
+        .leftJoinAndSelect('itemInBasket.shopItem', 'shopItem')
+        .getRawOne();
+
+    const allItemsInBasket = await this.getAllForAdmin();
+    const baskets: {
+      [userId: string]: number;
+    } = {};
+    for (const oneItemInBasket of allItemsInBasket) {
+      baskets[oneItemInBasket.user.id] = baskets[oneItemInBasket.user.id] || 0;
+
+      (baskets[oneItemInBasket.user.id] +=
+        oneItemInBasket.shopItem.price * oneItemInBasket.count * 1),
+        23;
+    }
+
+    const basketValues = Object.values(baskets);
+
+    const basketAvgPrice: number =
+      basketValues.reduce((prev, curr) => prev + curr, 0) / basketValues.length;
+
+    return {
+      itemInBasketAvgPrice: itemInBasketAvgPrice,
+      basketAvgPrice: basketAvgPrice,
+    };
   }
 }

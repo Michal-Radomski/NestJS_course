@@ -10,6 +10,7 @@ import {
 import {
   AddToBasketResponse,
   GetBasketResponse,
+  GetBasketStatsResponse,
   RemoveFromBasketResponse,
 } from 'src/interfaces/basket';
 import { BasketService } from './basket.service';
@@ -45,6 +46,11 @@ export class BasketController {
   @Get('/admin')
   getBasketForAdmin(): Promise<GetBasketResponse> {
     return this.basketService.getAllForAdmin();
+  }
+
+  @Get('/stats')
+  getStats(): Promise<GetBasketStatsResponse> {
+    return this.basketService.getStats();
   }
 
   @Get('/:userId')

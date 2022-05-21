@@ -19,3 +19,8 @@ interface OneItemInBasket {
 }
 
 export type GetBasketResponse = OneItemInBasket[];
+
+export interface GetBasketStatsResponse {
+  itemInBasketAvgPrice: number;
+  basketAvgPrice: number;
+}
