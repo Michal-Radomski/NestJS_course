@@ -3,7 +3,7 @@ import {
   BaseEntity,
   Column,
   Entity,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ShopItemInterface } from '../interfaces/shop';
@@ -30,6 +30,6 @@ export class ShopItem extends BaseEntity implements ShopItemInterface {
   })
   price: number;
 
-  @OneToOne((_type) => ItemInBasket, (entity) => entity.shopItem)
-  itemInBaseBasket: ItemInBasket;
+  @OneToMany((_type) => ItemInBasket, (entity) => entity.shopItem)
+  itemsInBasket: ItemInBasket;
 }
