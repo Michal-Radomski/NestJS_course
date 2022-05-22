@@ -2,6 +2,7 @@ import {
   Controller,
   DefaultValuePipe,
   Get,
+  ImATeapotException,
   Inject,
   Param,
   ParseIntPipe,
@@ -39,5 +40,10 @@ export class ShopController {
   ) {
     // console.log('age:', age, typeof age);
     return null;
+  }
+  @Get('/test3')
+  test3() {
+    //  throw new Error('Ups');
+    throw new ImATeapotException('ha ha ha');
   }
 }
