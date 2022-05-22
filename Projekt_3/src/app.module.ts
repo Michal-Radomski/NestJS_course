@@ -8,7 +8,7 @@ import { ShopModule } from './shop/shop.module';
 import { config } from './config';
 
 const dbUri = config.db;
-console.log({ dbUri });
+// console.log({ dbUri });
 
 @Module({
   imports: [MongooseModule.forRoot(dbUri), ShopModule],

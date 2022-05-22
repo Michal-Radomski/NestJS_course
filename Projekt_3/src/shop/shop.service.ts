@@ -21,4 +21,12 @@ export class ShopService {
     });
     return newDummyProduct.save();
   }
+
+  async getOneProduct(id: string): Promise<ShopItemInterface> {
+    return await this.itemShopModel.findById(id).exec();
+  }
+
+  async getNameProduct(name: string): Promise<ShopItemInterface> {
+    return await this.itemShopModel.findOne({ name: name }).exec();
+  }
 }

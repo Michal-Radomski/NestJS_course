@@ -6,4 +6,8 @@ export interface ShopItemInterface {
   createdAt: Date;
 }
 
+export type GetListOfProductsResponse = ShopItemInterface[];
+
+export type GetOneProductResponse = ShopItemInterface;
+
 export type CreateProductResponse = ShopItemInterface;
