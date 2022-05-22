@@ -12,10 +12,10 @@ export class ShopService {
 
   async createDummyProduct(): Promise<ShopItemInterface> {
     const newDummyProduct = await this.itemShopModel.create({
-      name: 'Ogórek - promocja',
-      description: 'Ogórek z promocji',
-      price: 3,
-      boughtCounter: 100,
+      name: 'Ostatni ogórek',
+      description: 'Ostatni ogórek z kolekcji',
+      price: 5,
+      boughtCounter: 13,
       createdAt: new Date(),
       wasEverBought: true,
     });
