@@ -1,4 +1,11 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  Inject,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ShopItemInterface } from 'src/interfaces/shop';
 import { ShopService } from './shop.service';
 
@@ -9,5 +16,14 @@ export class ShopController {
   @Get('/')
   getShopList(): Promise<ShopItemInterface[]> {
     return this.shopService.getItems();
+  }
+
+  @Get('/test/:index?')
+  test(
+    @Param('index', new DefaultValuePipe(0), ParseIntPipe)
+    index?: number,
+  ) {
+    console.log('index:', index);
+    return null;
   }
 }
