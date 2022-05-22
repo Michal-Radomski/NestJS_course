@@ -62,4 +62,16 @@ export class ShopService {
   async deleteMany(name: string): Promise<void> {
     await this.itemShopModel.deleteMany({ name: name }).exec();
   }
+
+  async updateProductById(id: string, price: number): Promise<void> {
+    await this.itemShopModel.findByIdAndUpdate(id, { price: price }).exec();
+  }
+  async updateOneProduct(id: string, price: number): Promise<void> {
+    await this.itemShopModel.updateOne({ _id: id }, { price: price }).exec();
+  }
+  async updateManyProducts(name: string, price: number): Promise<void> {
+    await this.itemShopModel
+      .updateMany({ name: name }, { price: price })
+      .exec();
+  }
 }

@@ -5,6 +5,7 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import {
@@ -57,5 +58,28 @@ export class ShopController {
   @Post('/del_many')
   async deleteMany(@Body() req: { name: string }): Promise<void> {
     await this.shopService.deleteMany(req.name);
+  }
+
+  @Patch('/update_price/:id')
+  async updateProductById(
+    @Param('id') id: string,
+    @Body() req: { price: number },
+  ): Promise<void> {
+    return this.shopService.updateProductById(id, req.price);
+  }
+  @Patch('/update_one_price/:id')
+  async updateOneProduct(
+    @Param('id') id: string,
+    @Body() req: { price: number },
+  ): Promise<void> {
+    return this.shopService.updateOneProduct(id, req.price);
+  }
+
+  @Patch('/update_many_price/:name')
+  async updateManyProducts(
+    @Param('name') name: string,
+    @Body() req: { price: number },
+  ): Promise<void> {
+    return this.shopService.updateManyProducts(name, req.price);
   }
 }
