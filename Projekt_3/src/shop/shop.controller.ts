@@ -82,4 +82,12 @@ export class ShopController {
   ): Promise<void> {
     return this.shopService.updateManyProducts(name, req.price);
   }
+
+  @Patch('/replace_one_price/:id')
+  async replaceOneProduct(
+    @Param('id') id: string,
+    @Body() req: { name: string },
+  ): Promise<void> {
+    await this.shopService.replaceOneProduct(id, req.name);
+  }
 }

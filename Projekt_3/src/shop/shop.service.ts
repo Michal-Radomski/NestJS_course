@@ -74,4 +74,8 @@ export class ShopService {
       .updateMany({ name: name }, { price: price })
       .exec();
   }
+
+  async replaceOneProduct(id: string, name: string): Promise<void> {
+    await this.itemShopModel.replaceOne({ _id: id }, { name: name }).exec(); //* replaceOne() może usunąć dane!
+  }
 }
