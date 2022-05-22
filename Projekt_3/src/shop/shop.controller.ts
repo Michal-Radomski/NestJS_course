@@ -1,4 +1,12 @@
-import { Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   CreateProductResponse,
   GetOneProductResponse,
@@ -31,8 +39,23 @@ export class ShopController {
     return this.shopService.getNameProduct(name);
   }
 
+  @Delete('/del/:id')
+  removeProductById(@Param('id') id: string): Promise<void> {
+    return this.shopService.removeProductById(id);
+  }
+
+  @Delete('/del/:name')
+  removeOneProduct(@Param('name') name: string): Promise<void> {
+    return this.shopService.removeOneProduct(name);
+  }
+
   @Post('/')
   createNewProduct(): Promise<CreateProductResponse> {
     return this.shopService.createDummyProduct();
+  }
+
+  @Post('/del_many')
+  async deleteMany(@Body() req: { name: string }): Promise<void> {
+    await this.shopService.deleteMany(req.name);
   }
 }

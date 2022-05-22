@@ -50,4 +50,16 @@ export class ShopService {
       pageCount: Math.ceil(totalNumber / PRODUCT_QUANTITY_PER_PAGE),
     };
   }
+
+  async removeProductById(id: string): Promise<void> {
+    await this.itemShopModel.findByIdAndDelete(id).exec();
+  }
+
+  async removeOneProduct(name: string): Promise<void> {
+    await this.itemShopModel.deleteOne({ name: name }).exec();
+  }
+
+  async deleteMany(name: string): Promise<void> {
+    await this.itemShopModel.deleteMany({ name: name }).exec();
+  }
 }
