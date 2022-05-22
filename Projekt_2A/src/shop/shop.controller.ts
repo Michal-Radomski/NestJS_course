@@ -24,7 +24,7 @@ export class ShopController {
     @Param('index', new DefaultValuePipe(0), ParseIntPipe)
     index?: number,
   ) {
-    console.log('index:', index);
+    // console.log('index:', index);
     return null;
   }
   @Get('/test2/:age')
@@ -37,7 +37,7 @@ export class ShopController {
     )
     age?: number,
   ) {
-    console.log('age:', age, typeof age);
+    // console.log('age:', age, typeof age);
     return null;
   }
 }
