@@ -7,9 +7,11 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsePasswordDecorator } from 'src/decorators/use-password.decorator';
 import { PasswordProtectGuard } from 'src/guards/password-protect.guards';
+import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
 import {
   AddToBasketResponse,
   GetBasketResponse,
@@ -56,6 +58,7 @@ export class BasketController {
   @Get('/stats')
   @UseGuards(PasswordProtectGuard)
   @UsePasswordDecorator('stats-password')
+  @UseInterceptors(TimeoutInterceptor)
   getStats(): Promise<GetBasketStatsResponse> {
     return this.basketService.getStats();
   }
