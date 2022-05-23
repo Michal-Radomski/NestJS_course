@@ -7,6 +7,7 @@ import { BasketModule } from './basket/basket.module';
 import { CacheModule } from './cache/cache.module';
 import { ShopModule } from './shop/shop.module';
 import { UserModule } from './user/user.module';
+import { DiscountCodeModule } from './discount-code/discount-code.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot(),
     UserModule,
     CacheModule,
+    DiscountCodeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
