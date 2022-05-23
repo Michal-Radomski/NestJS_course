@@ -1,9 +1,10 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   AddToBasketResponse,
   GetBasketStatsResponse,
   RemoveFromBasketResponse,
 } from 'src/interfaces/basket';
+import { MailService } from 'src/mail/mail.service';
 import { ShopService } from 'src/shop/shop.service';
 import { UserService } from 'src/user/user.service';
 import { getConnection } from 'typeorm';
@@ -13,8 +14,9 @@ import { ItemInBasket } from './item-in-basket.entity';
 @Injectable()
 export class BasketService {
   constructor(
-    @Inject(forwardRef(() => ShopService)) private shopService: ShopService,
-    @Inject(forwardRef(() => UserService)) private userService: UserService,
+    @Inject(ShopService) private shopService: ShopService,
+    @Inject(UserService) private userService: UserService,
+    @Inject(MailService) private mailService: MailService,
   ) {}
 
   async add(product: AddItemDto): Promise<AddToBasketResponse> {
@@ -45,6 +47,13 @@ export class BasketService {
     item.user = user;
 
     await item.save();
+
+    await this.mailService.sendMail(
+      user.email,
+      'Dziękujemy za dodanie do koszyka',
+      `Dodano do koszyka: ${shopItem.description}!`,
+    );
+
     return {
       isSuccess: true,
       id: item.id,

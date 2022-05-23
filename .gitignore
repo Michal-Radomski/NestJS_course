@@ -19,3 +19,4 @@ node_modules/
 ormconfig.json
 ormconfig.back.json
 config.ts
+mailerconfig.ts
