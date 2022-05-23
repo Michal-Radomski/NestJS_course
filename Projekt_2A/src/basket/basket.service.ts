@@ -6,6 +6,7 @@ import {
 } from 'src/interfaces/basket';
 import { MailService } from 'src/mail/mail.service';
 import { ShopService } from 'src/shop/shop.service';
+import { addedToBasketInfoEmailTemplate } from 'src/templates/email/added-to-basket-info';
 import { UserService } from 'src/user/user.service';
 import { getConnection } from 'typeorm';
 import { AddItemDto } from './dto/add-item.dto';
@@ -48,10 +49,15 @@ export class BasketService {
 
     await item.save();
 
+    // await this.mailService.sendMail(
+    //   user.email,
+    //   'Dziękujemy za dodanie do koszyka',
+    //   `Dodano do koszyka: ${shopItem.description}!`,
+    // );
     await this.mailService.sendMail(
       user.email,
       'Dziękujemy za dodanie do koszyka',
-      `Dodano do koszyka: ${shopItem.description}!`,
+      addedToBasketInfoEmailTemplate(),
     );
 
     return {
