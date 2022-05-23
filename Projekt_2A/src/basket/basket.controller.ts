@@ -9,8 +9,10 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { UseCacheTimeDecorator } from 'src/decorators/use-cache-time.decorator';
 import { UsePasswordDecorator } from 'src/decorators/use-password.decorator';
 import { PasswordProtectGuard } from 'src/guards/password-protect.guards';
+import { CacheInterceptor } from 'src/interceptors/cache.interceptor';
 import { TimeoutInterceptor } from 'src/interceptors/timeout.interceptor';
 import {
   AddToBasketResponse,
@@ -58,7 +60,8 @@ export class BasketController {
   @Get('/stats')
   @UseGuards(PasswordProtectGuard)
   @UsePasswordDecorator('stats-password')
-  @UseInterceptors(TimeoutInterceptor)
+  @UseInterceptors(TimeoutInterceptor, CacheInterceptor)
+  @UseCacheTimeDecorator(15)
   getStats(): Promise<GetBasketStatsResponse> {
     return this.basketService.getStats();
   }
