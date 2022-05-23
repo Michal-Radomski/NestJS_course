@@ -1,4 +1,7 @@
-import { BaseEntity, Entity } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class DiscountCode extends BaseEntity {}
+export class DiscountCode extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+}
