@@ -15,17 +15,17 @@ async function bootstrap() {
   (app as NestExpressApplication).use(helmet());
   app.enableShutdownHooks();
   app.useGlobalFilters(new ImATeapotExceptionFilter());
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     disableErrorMessages: true,
-  //     whitelist: true,
-  //     forbidNonWhitelisted: true,
-  //     transform: true,
-  //     transformOptions: {
-  //       enableImplicitConversion: true,
-  //     },
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
 
   app.use(cookieParser());
   await app.listen(3000);

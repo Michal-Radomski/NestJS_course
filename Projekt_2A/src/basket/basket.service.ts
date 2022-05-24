@@ -7,6 +7,7 @@ import {
 import { MailService } from 'src/mail/mail.service';
 import { ShopService } from 'src/shop/shop.service';
 import { addedToBasketInfoEmailTemplate } from 'src/templates/email/added-to-basket-info';
+import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
 import { getConnection } from 'typeorm';
 import { AddItemDto } from './dto/add-item.dto';
@@ -20,13 +21,17 @@ export class BasketService {
     @Inject(MailService) private mailService: MailService,
   ) {}
 
-  async add(product: AddItemDto): Promise<AddToBasketResponse> {
-    const { count, productId, userId } = product;
+  async addProduct(
+    product: AddItemDto,
+    user: User,
+  ): Promise<AddToBasketResponse> {
+    // const { count, productId, userId } = product;
+    const { count, productId } = product;
     const shopItem = await this.shopService.getOneItem(productId);
-    const user = await this.userService.getOneUser(userId);
+    // const user = await this.userService.getOneUser(userId);
 
     if (
-      typeof userId !== 'string' ||
+      // typeof userId !== 'string' ||
       typeof productId !== 'string' ||
       typeof count !== 'number' ||
       productId === '' ||

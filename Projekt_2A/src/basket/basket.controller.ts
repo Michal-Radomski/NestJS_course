@@ -22,6 +22,9 @@ import {
 } from 'src/interfaces/basket';
 import { BasketService } from './basket.service';
 import { AddItemDto } from './dto/add-item.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { UserObjDecorator } from '../decorators/user-obj.decorator';
+import { User } from 'src/user/user.entity';
 
 @Controller('/basket')
 export class BasketController {
@@ -33,8 +36,13 @@ export class BasketController {
   }
 
   @Post('/')
-  addProductToBasket(@Body() item: AddItemDto): Promise<AddToBasketResponse> {
-    return this.basketService.add(item);
+  @UseGuards(AuthGuard('jwt'))
+  addProductToBasket(
+    @Body() product: AddItemDto,
+    @UserObjDecorator() user: User,
+  ): Promise<AddToBasketResponse> {
+    // console.log({ user });
+    return this.basketService.addProduct(product, user);
   }
 
   @Delete('/all/:userId')
