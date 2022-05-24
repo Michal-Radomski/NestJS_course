@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ImATeapotExceptionFilter } from './filters/global-exception.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
+import * as cookieParser from 'cookie-parser';
 
 // import * as Helmet from 'helmet';
 // console.log('helmet:', helmet);
@@ -26,6 +27,7 @@ async function bootstrap() {
   //   }),
   // );
 
+  app.use(cookieParser());
   await app.listen(3000);
 }
 bootstrap();

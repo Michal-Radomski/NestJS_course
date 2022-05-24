@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { DiscountCodeModule } from './discount-code/discount-code.module';
 import { CronModule } from './cron/cron.module';
 import { MailModule } from './mail/mail.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MailModule } from './mail/mail.module';
     DiscountCodeModule,
     CronModule,
     MailModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
